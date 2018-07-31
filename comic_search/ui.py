@@ -109,7 +109,7 @@ class ResultFrame(QFrame):
         self.auth_label.setText('作者：' + self.auth)
 
         self.latest_label.setGeometry(220, 50, 261, 16)
-        self.latest_label.setText(self.latest)
+        self.latest_label.setText('最新：' + self.latest)
 
         self.status_label.setGeometry(620, 50, 51, 16)
         self.status_label.setText(self.status)
