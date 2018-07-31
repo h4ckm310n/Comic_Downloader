@@ -60,7 +60,7 @@ class InfoFrame(QFrame):
             self.chaps_titles.append(chap['chapter_title'])
             self.urls.append('http://v2api.dmzj.com/chapter/' + str(self.id) + '/' + str(chap['chapter_id']) + '.json')
 
-        self.title_label = QLabel(self.title, self)
+        self.title_label = QLabel(self)
         self.cover_label = CoverLabel(self.cover, self)
         self.info_table = InfoTable(self)
         self.intro_scroll = QScrollArea(self)
@@ -73,11 +73,16 @@ class InfoFrame(QFrame):
 
     def set_widgets(self):
         self.title_label.setGeometry(270, 20, 431, 21)
+        text = '<html><head/><body><p><span style=" font-size:18pt; font-weight:600; color:#0000ff;">'\
+            + self.title + '</span></p></body></html>'
+        self.title_label.setText(text)
         self.intro_scroll.setGeometry(30, 340, 211, 131)
         self.intro_label.setGeometry(0, 0, 209, 129)
         self.intro_label.setFixedWidth(209)
         self.intro_label.setWordWrap(True)
         self.intro_scroll.setWidget(self.intro_label)
+        self.intro_label.adjustSize()
+
         self.info_table.set_info(self.auth, self.latest, self.status, self.intro)
         rows = 19
         for i in range(0, len(self.chaps), rows):
@@ -204,3 +209,5 @@ class DLButton(QPushButton):
         if checked != []:
             window = self.parent().parent().parent().parent().parent()
             window.download_clicked(self.title, checked)
+            for checkbox in checked:
+                checkbox.setChecked(False)

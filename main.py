@@ -53,7 +53,6 @@ class Main(UIForm):
         """save the download list to the save file before closed"""
 
         self.save_thread.start()
-        print('close')
 
     def dl_init(self):
         """initialize the download list"""
@@ -68,7 +67,7 @@ class Main(UIForm):
     def start_search(self):
         """search"""
 
-        text = '闪电侠'
+        text = self.search_edit.text()
         if text != '':
             self.search_dialog = SearchDialog(self)
 
@@ -97,6 +96,7 @@ class Main(UIForm):
             result_list.add_to_list(title, auth, latest, status, id)
 
         result_list.show()
+        self.tabWidget.setCurrentIndex(0)
 
     def comic_clicked(self, title, auth, latest, status, id):
         """the title label of a search result is clicked"""

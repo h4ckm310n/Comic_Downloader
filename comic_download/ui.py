@@ -66,10 +66,8 @@ class InitDialog(QDialog):
 
     def __init__(self, parent):
         super(InitDialog, self).__init__(parent)
-        self.setFixedSize(184, 53)
+        self.setGeometry(600, 300, 184, 53)
         self.label = QLabel("正在初始化，请稍等……", self)
-        self.label.setGeometry(19, 20, 151, 20)
+        self.label.setGeometry(38, 10, 130, 20)
         self.label.setAlignment(Qt.AlignCenter)
 
-    '''def closeEvent(self, a0: QCloseEvent):
-        a0.ignore()'''
