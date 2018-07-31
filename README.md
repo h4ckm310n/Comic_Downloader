@@ -2,6 +2,15 @@
 
 边学习Python边做出来的玩意儿，目前仅支持动漫之家，将来可能会适配更多网站。在Mac下写的，Windows环境还没测试过。
 
+#### 界面：
+
+![avatar](https://github.com/pwxssj/Comic_Downloader/blob/master/screenshots/search.png)
+
+![avatar](https://github.com/pwxssj/Comic_Downloader/blob/master/screenshots/info.png)
+
+![avatar](https://github.com/pwxssj/Comic_Downloader/blob/master/screenshots/dl.png)
+
+
 
 #### 目前发现的问题：
 
