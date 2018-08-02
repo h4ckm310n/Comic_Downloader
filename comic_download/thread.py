@@ -118,7 +118,7 @@ class InitThread(QThread):
                 for task in sav.readlines():
                     task = json.loads(task.replace('\n', ''))
                     state = task['state']
-                    if state == -1:
+                    if state != 2:
                         q1.put(task)
                     self.all_tasks.append(task)
                 time.sleep(1)

@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 
 def search_state(search_dialog, state):
     if state == 3:
+        search_dialog.closable = 2
         search_dialog.close()
 
     if state == 0:
@@ -33,6 +34,8 @@ class SearchDialog(QDialog):
         self.setWindowTitle("正在搜索")
         self.activateWindow()
 
+        self.closable = 0
+
         self.label = QLabel(self)
         self.label.setGeometry(30, 20, 171, 21)
         self.pushButton = QPushButton(self)
@@ -46,10 +49,17 @@ class SearchDialog(QDialog):
     def cancel(self):
         """cancel the search"""
 
+        self.closable = 1
         self.close()
 
-    def closeEvent(self, a0: QCloseEvent):
-        self.parent().search_thread.exit()
+    def closeEvent(self, a0):
+        if self.closable == 0:
+            a0.ignore()
+        elif self.closable == 1:
+            self.closable = 0
+            self.parent().search_thread.terminate()
+        elif self.closable == 2:
+            self.closable = 0
 
 
 class ResultList(QListWidget):
@@ -113,6 +123,9 @@ class ResultFrame(QFrame):
 
         self.status_label.setGeometry(620, 50, 51, 16)
         self.status_label.setText(self.status)
+
+    def mousePressEvent(self, a0):
+        pass
 
 
 class TitleLabel(QLabel):

@@ -62,6 +62,7 @@ class Main(UIForm):
                 self.all_tasks[i]['index'] = i
                 self.add_task(self.all_tasks[i])
         self.dl_list.show()
+        self.init_dialog.closable = 1
         self.init_dialog.close()
 
     def start_search(self):

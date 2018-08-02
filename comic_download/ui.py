@@ -8,7 +8,7 @@ class DLList(QListWidget):
 
     def __init__(self, parent):
         super(DLList, self).__init__(parent)
-        self.setGeometry(20, 12, 740, 494)
+        self.setGeometry(20, 12, 740, 470)
 
     def add_to_list(self, frame):
         item = QListWidgetItem(self)
@@ -60,6 +60,9 @@ class ItemFrame(QFrame):
             self.progress.setMaximum(self.page_num)
         self.progress.setValue(value)
 
+    def mousePressEvent(self, a0):
+        pass
+
 
 class InitDialog(QDialog):
     """wait until the initialization is finished"""
@@ -68,6 +71,12 @@ class InitDialog(QDialog):
         super(InitDialog, self).__init__(parent)
         self.setGeometry(600, 300, 184, 53)
         self.label = QLabel("正在初始化，请稍等……", self)
-        self.label.setGeometry(38, 10, 130, 20)
+        self.label.setGeometry(30, 10, 150, 20)
         self.label.setAlignment(Qt.AlignCenter)
+        self.closable = 0
 
+    def closeEvent(self, a0):
+        if self.closable == 0:
+            a0.ignore()
+        elif self.closable == 1:
+            pass

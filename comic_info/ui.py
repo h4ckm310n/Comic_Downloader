@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 
 def info_state(info_dialog, state):
     if state == 3:
+        info_dialog.closable = 2
         info_dialog.close()
 
     if state == 0:
@@ -20,6 +21,8 @@ class InfoDialog(QDialog):
         self.setWindowTitle("正在获取信息")
         self.activateWindow()
 
+        self.closable = 0
+
         self.label = QLabel(self)
         self.label.setGeometry(30, 20, 171, 21)
         self.pushButton = QPushButton(self)
@@ -31,10 +34,17 @@ class InfoDialog(QDialog):
         self.pushButton.clicked.connect(self.cancel)
 
     def cancel(self):
+        self.closable = 1
         self.close()
 
-    def closeEvent(self, a0: QCloseEvent):
-        self.parent().info_thread.exit()
+    def closeEvent(self, a0):
+        if self.closable == 0:
+            a0.ignore()
+        elif self.closable == 1:
+            self.closable = 0
+            self.parent().info_thread.terminate()
+        elif self.closable == 2:
+            self.closable = 0
 
 
 class InfoFrame(QFrame):

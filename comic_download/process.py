@@ -22,11 +22,11 @@ def chap_info(all_tasks):
     task['state'] = 0
     all_tasks[task['index']] = task
     q2.put(task)
+
     path_init = os.path.abspath('.')
     if not os.path.exists('./download'):
         os.mkdir('download')
     os.chdir('./download')
-
     comic = task['comic'].replace('/', ' ')
     chap = task['chap'].replace('/', ' ')
     if not os.path.exists('./' + comic):
@@ -49,6 +49,13 @@ def chap_info(all_tasks):
     all_tasks[task['index']] = task
     q2.put(task)
 
+    task['progress'] = 0
+    for page_url in page_urls:
+        for root, dirs, files in os.walk('.'):
+            if os.path.basename(page_url) in files:
+                page_urls.remove(page_url)
+                task['progress'] += 1
+
     image_tasks = [image_dl(page_url, task, all_tasks) for page_url in page_urls]
     image_loop = asyncio.new_event_loop()
     asyncio.set_event_loop(image_loop)
@@ -56,7 +63,7 @@ def chap_info(all_tasks):
 
     if task['progress'] == page_num:
         os.chdir(os.path.dirname(os.path.abspath('.')))
-        with zipfile.ZipFile(' '.join((comic, chap)) + '.zip', 'a') as zip_chap:
+        with zipfile.ZipFile(' '.join((comic, chap)) + '.zip', 'w') as zip_chap:
             for root, dirs, files in os.walk('./' + chap):
                 for file in files:
                     zip_chap.write(root + '/' + file)
