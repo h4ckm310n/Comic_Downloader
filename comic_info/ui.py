@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 
 
 def info_state(info_dialog, state):
-    if state == 3:
+    if state == 1:
         info_dialog.closable = 2
         info_dialog.close()
 
@@ -48,27 +48,21 @@ class InfoDialog(QDialog):
 
 
 class InfoFrame(QFrame):
-    def __init__(self, title, cover, auth, latest, status, intro, chaps, id, parent):
+    def __init__(self, info, parent):
         super(InfoFrame, self).__init__(parent)
         self.setObjectName('InfoFrame')
         self.setGeometry(20, 12, 740, 494)
         self.setFrameShape(QFrame.WinPanel)
         self.setFrameShadow(QFrame.Raised)
 
-        self.title = title
-        self.cover = cover
-        self.auth = auth
-        self.latest = latest
-        self.status = status
-        self.intro = intro
-        self.chaps = chaps
-        self.id = id
-        self.chaps_titles = []
-        self.urls = []
-
-        for chap in self.chaps:
-            self.chaps_titles.append(chap['chapter_title'])
-            self.urls.append('http://v2api.dmzj.com/chapter/' + str(self.id) + '/' + str(chap['chapter_id']) + '.json')
+        self.title = info['title']
+        self.cover = info['cover']
+        self.auth = info['auth']
+        self.latest = info['latest']
+        self.status = info['status']
+        self.intro = info['intro']
+        self.chaps = info['chaps']
+        self.module = info['module']
 
         self.title_label = QLabel(self)
         self.cover_label = CoverLabel(self.cover, self)
@@ -82,6 +76,7 @@ class InfoFrame(QFrame):
         self.set_widgets()
 
     def set_widgets(self):
+        self.parent().parent().parent().setTabText(1, self.title)
         self.title_label.setGeometry(270, 20, 431, 21)
         text = '<html><head/><body><p><span style=" font-size:18pt; font-weight:600; color:#0000ff;">'\
             + self.title + '</span></p></body></html>'
@@ -100,7 +95,7 @@ class InfoFrame(QFrame):
             if len(self.chaps) - i < rows:
                 rows = len(self.chaps) - i
             for j in range(0, rows):
-                checkbox = ChapCheck(i + j, self.chaps_titles[i + j], self.urls[i + j], self)
+                checkbox = ChapCheck(i + j, self.chaps[i + j]['chap_title'], self.chaps[i + j]['chap_href'], self.module, self)
                 self.checkboxes.append(checkbox)
                 item_list.add_to_list(checkbox)
             self.big_list.add_list(item_list)
@@ -180,10 +175,11 @@ class ItemList(QListWidget):
 
 
 class ChapCheck(QCheckBox):
-    def __init__(self, i, chap, url, parent):
+    def __init__(self, i, chap, url, module, parent):
         super(ChapCheck, self).__init__(chap, parent)
         self.chap = chap
         self.url = url
+        self.module = module
         self.setObjectName('Chapcheck_' + str(i))
         self.setFixedSize(161, 20)
 

@@ -1,0 +1,18 @@
+{
+  "modules":
+  [
+    {
+      "name": "dmzj_app",
+      "enable": 1
+    },
+    {
+      "name": "readcomicsonline_ru",
+      "enable": 1
+    },
+    {
+      "name": "mangabz_com",
+      "enable": 1
+    }
+  ],
+  "process_number": 4
+}
